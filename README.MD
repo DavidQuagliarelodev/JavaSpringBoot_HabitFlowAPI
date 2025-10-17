@@ -1,5 +1,5 @@
 - Application Diagram
-<img src="/images/bbb.png" alt="texto alternativo">
+<img src="/images/applicationDiagram.png" alt="Application Diagram">
  
 - UML - Docker + Postgress
-<img src="/Images/hhh.png" alt="texto alternativo">
+<img src="/Images/umlDiagram.png" alt="UML Diagram">

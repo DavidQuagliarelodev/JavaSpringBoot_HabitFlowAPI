@@ -1,7 +1,6 @@
 package com.habitFlowApi.app.controller;
 import com.habitFlowApi.app.config.Autenticator;
 import com.habitFlowApi.app.dto.request.HabitRequestDTO;
-import com.habitFlowApi.app.dto.request.HabitResponseDTO;
 import com.habitFlowApi.app.model.Habit;
 import com.habitFlowApi.app.model.User;
 import com.habitFlowApi.app.service.HabitServiceImp;
@@ -107,14 +106,23 @@ public class HabitController {
 //        }
 //    }
 
-    @PutMapping
-    public ResponseEntity<Habit> updateHabit(@RequestBody Habit habit){
-        return ResponseEntity.status(HttpStatus.CREATED).body(habitServiceImp.save(habit));
+    @PutMapping("/{token}")
+    public ResponseEntity<?> updateHabit(@PathVariable long token, @RequestBody Habit habit){
+        if(token != autenticator.getToken()){
+            return ResponseEntity.badRequest().body("User not found or token invalid");
+        }else{
+            return ResponseEntity.status(HttpStatus.CREATED).body(habitServiceImp.save(habit));
+        }
     }
 
-    @DeleteMapping("/id")
-    public ResponseEntity<?> deleteHabitById(@PathVariable  long id){
+    @DeleteMapping("/{token}/{id}")
+    public ResponseEntity<?> deleteHabitById(@PathVariable long token, @PathVariable  long id){
+        if(token != autenticator.getToken()){
+            return ResponseEntity.badRequest().body("User not found or token invalid");
+        }else{
             habitServiceImp.deleteById(id);
-           return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+
     }
 }
